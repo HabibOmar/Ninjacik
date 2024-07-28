@@ -1,1 +1,1 @@
-# Ninjacik
+# Ninjacik: A Ninja Game
