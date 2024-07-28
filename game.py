@@ -1,38 +1,33 @@
 import sys
 import pygame
 
+from scripts.utils import load_image
+from scripts.entities import PhysicsEntinty
+
 class Game:
     def __init__(self):
         pygame.init()
-
-        self.window = pygame.display.set_mode((640, 480))
-        pygame.display.set_caption('A Game')
+        pygame.display.set_caption('Ninjacik')
+        
+        self.full_window = pygame.display.set_mode((640, 480))
+        self.half_window = pygame.Surface((320, 240))
 
         self.clock = pygame.time.Clock()
-
-        self.img = pygame.image.load('data/images/clouds/cloud_1.png')
-        self.img.set_colorkey((0, 0, 0))
-
-        self.img_pos = [100, 200]
+        
         self.movement = [False, False, False, False]
 
-        self.collision_area = pygame.Rect(50, 50, 300, 50)
+        self.assets = {
+            'player': load_image('entities/player.png')
+        }
+
+        self.player = PhysicsEntinty(self, 'player', (50, 50), (8, 15))
 
     def run(self):
         while True:
-            self.window.fill((14, 219, 248))
+            self.half_window.fill((14, 219, 248))
 
-            self.img_pos[0] += (self.movement[2] - self.movement[3]) * 5
-            self.img_pos[1] += (self.movement[1] - self.movement[0]) * 5
-
-            self.window.blit(self.img, self.img_pos)
-
-            img_r = pygame.Rect(*self.img_pos, *self.img.get_size())
-
-            if img_r.colliderect(self.collision_area):
-                pygame.draw.rect(self.window, (225, 10, 72), self.collision_area)
-            else:
-                pygame.draw.rect(self.window, (100, 10, 25), self.collision_area)
+            self.player.update((self.movement[2] - self.movement[3], 0))
+            self.player.render(self.half_window)
 
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
@@ -57,6 +52,7 @@ class Game:
                     if event.key == pygame.K_LEFT:
                         self.movement[3] = False
 
+            self.full_window.blit(pygame.transform.scale(self.half_window, (640, 480)), (0, 0))
             pygame.display.update()
             self.clock.tick(60)
 
