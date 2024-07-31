@@ -10,8 +10,8 @@ class Game:
         pygame.init()
         pygame.display.set_caption('Ninjacik')
         
-        self.full_window = pygame.display.set_mode((640, 480))
-        self.half_window = pygame.Surface((320, 240))
+        self.disp = pygame.display.set_mode((640, 480))
+        self.window = pygame.Surface((320, 240))
 
         self.clock = pygame.time.Clock()
         
@@ -24,39 +24,39 @@ class Game:
         self.tilemap = Tilemap(self)
         self.tilemap.basic_map()
 
+        self.scroll = [0, 0]
+
     def run(self):
         while True:
-            self.half_window.fill((14, 219, 248))
+            self.window.blit(self.assets['background'], (0,0))
 
-            self.tilemap.render(self.half_window)
+            self.scroll[0] += (self.player.rect().centerx - self.window.get_width() / 2 - self.scroll[0]) / 30
+            self.scroll[1] += (self.player.rect().centery - self.window.get_height() / 2 - self.scroll[1]) / 30
+            render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
 
-            self.player.update((self.movement[2] - self.movement[3], 0))
-            self.player.render(self.half_window)
+            self.tilemap.render(self.window, offset=render_scroll)
+
+            self.player.update(self.tilemap, (self.movement[0] - self.movement[1], 0))
+            self.player.render(self.window, offset=render_scroll)
 
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
                     pygame.quit()
                     sys.exit()
                 if event.type == pygame.KEYDOWN:
-                    if event.key == pygame.K_UP:
+                    if event.key == pygame.K_RIGHT:
                         self.movement[0] = True
-                    if event.key == pygame.K_DOWN:
+                    if event.key == pygame.K_LEFT:
                         self.movement[1] = True
-                    if event.key == pygame.K_RIGHT:
-                        self.movement[2] = True
-                    if event.key == pygame.K_LEFT:
-                        self.movement[3] = True
-                if event.type == pygame.KEYUP:
                     if event.key == pygame.K_UP:
-                        self.movement[0] = False
-                    if event.key == pygame.K_DOWN:
-                        self.movement[1] = False
+                        self.player.velocity[1] = -3
+                if event.type == pygame.KEYUP:
                     if event.key == pygame.K_RIGHT:
-                        self.movement[2] = False
+                        self.movement[0] = False
                     if event.key == pygame.K_LEFT:
-                        self.movement[3] = False
+                        self.movement[1] = False
 
-            self.full_window.blit(pygame.transform.scale(self.half_window, (640, 480)), (0, 0))
+            self.disp.blit(pygame.transform.scale(self.window, (640, 480)), (0, 0))
             pygame.display.update()
             self.clock.tick(60)
 
