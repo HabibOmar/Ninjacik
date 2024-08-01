@@ -18,8 +18,8 @@ class Tilemap:
     
     def basic_map(self):
         for i in range(10):
-            self.tilemap[str(3+i) + ';10'] = Tile(type='Grass', variant='1', pos=(3+i, 10))
-            self.tilemap['10;' + str(5+i)] = Tile(type='Stone', variant='1', pos=(10, 5+i))
+            self.tilemap[str(3+i) + ';10'] = Tile(type='Grass', variant=1, pos=(3+i, 10))
+            self.tilemap['10;' + str(5+i)] = Tile(type='Stone', variant=1, pos=(10, 5+i))
 
     def neighbor_tiles(self, pos):
         tiles = []

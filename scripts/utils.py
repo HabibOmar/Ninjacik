@@ -22,17 +22,40 @@ def load_all_images(BASE_IMAGE_PATH=BASE_IMAGE_PATH):
                 relative_path = os.path.relpath(full_path, BASE_IMAGE_PATH)
                 parts = relative_path.split(os.sep)
                 
+                key = parts[-1][:-4]
+                try:
+                    key = int(key)
+                except ValueError:
+                    pass
+
                 d = images
                 for part in parts[:-1]:
                     if part not in d:
                         d[part] = {}
                     d = d[part]
-                d[parts[-1][:-4]] = image
+                d[key] = image
                 
     return images
 
+class Animation:
+    def __init__(self, images, img_dur=5, loop=True):
+        self.images = images
+        self.img_duration = img_dur
+        self.loop = loop
+        
+        self.frame = 0
+        self.done = False
+    
+    def update(self):
+        if self.loop:
+            self.frame = (self.frame + 1) % (len(self.images) * self.img_duration)
+        else:
+            self.frame = min(self.frame + 1 , self.img_duration * len(self.images) - 1)
+            if self.frame == len(self.images) * self.img_duration - 1:
+                self.done = True
 
-# pygame.init()
-# pygame.display.set_mode((640, 480))
-# imgs = load_all_images()
-# print(imgs['Tiles']['Grass']['1'])
+    def copy(self):
+        return Animation(self.images, self.img_dur, self.loop)
+
+    def img(self):
+        return self.images[int(self.frame / self.img_duration)]

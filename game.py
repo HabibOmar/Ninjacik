@@ -1,8 +1,8 @@
 import sys
 import pygame
 
-from scripts.utils import load_image, load_all_images
-from scripts.entities import PhysicsEntity
+from scripts.utils import load_all_images
+from scripts.entities import Player
 from scripts.tilemap import Tilemap
 from scripts.clouds import Clouds
 
@@ -25,7 +25,7 @@ class Game:
 
         self.clouds = Clouds(self.assets['Clouds'], 320, 240, count=16)
 
-        self.player = PhysicsEntity(self, 'player', (50, 50), (8, 15), self.assets['Entities']['player'])
+        self.player = Player(self, (50, 50), (8, 15))
 
 
         self.scroll = [0, 0]
