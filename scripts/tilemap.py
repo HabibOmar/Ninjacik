@@ -10,8 +10,8 @@ class Tile:
         self.pos = pos
 
 class Tilemap:
-    def __init__(self, game, tile_size = 16):
-        self.assets = game.assets
+    def __init__(self, tile_assets, tile_size = 16):
+        self.assets = tile_assets
         self.tile_size = tile_size
         self.tilemap = {}
         self.offgrid_tiles = []
@@ -40,12 +40,12 @@ class Tilemap:
 
     def render(self, surf, offset=(0, 0)):
         for tile in self.offgrid_tiles:
-            surf.blit(self.assets['Tiles'][tile.type][tile.variant], (tile.pos[0] - offset[0], tile.pos[1] - offset[1]))
+            surf.blit(self.assets[tile.type][tile.variant], (tile.pos[0] - offset[0], tile.pos[1] - offset[1]))
 
         for x in range(offset[0] // self.tile_size, (offset[0] + surf.get_width()) // self.tile_size + 1):
             for y in range(offset[1] // self.tile_size, (offset[1] + surf.get_height()) // self.tile_size + 1):
                 loc = str(x) + ';' + str(y)
                 if loc in self.tilemap:
                     tile = self.tilemap[loc]
-                    surf.blit(self.assets['Tiles'][tile.type][tile.variant], (tile.pos[0] * self.tile_size - offset[0], tile.pos[1] * self.tile_size - offset[1]))
+                    surf.blit(self.assets[tile.type][tile.variant], (tile.pos[0] * self.tile_size - offset[0], tile.pos[1] * self.tile_size - offset[1]))
         

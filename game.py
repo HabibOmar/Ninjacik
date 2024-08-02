@@ -20,7 +20,7 @@ class Game:
 
         self.assets = load_all_images()
 
-        self.tilemap = Tilemap(self)
+        self.tilemap = Tilemap(tile_assets=self.assets['Tiles'], tile_size=16)
         self.tilemap.basic_map()
 
         self.clouds = Clouds(self.assets['Clouds'], 320, 240, count=16)
