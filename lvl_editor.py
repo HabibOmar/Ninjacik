@@ -22,6 +22,13 @@ class Editor:
 
         self.tilemap = Tilemap(tile_assets=self.tile_assets, tile_size=16)
 
+        try:
+            self.tilemap.load_map('test.json')
+        except FileNotFoundError as e:
+            print("No map found:", e)
+        except Exception as e:
+            print("Error loading map:", e)
+
         self.scroll = [0, 0]
 
         self.tiles_list = list(self.tile_assets)
@@ -115,6 +122,11 @@ class Editor:
                     if event.key == pygame.K_r:
                         self.tilemap.offgrid_tiles = []
                         self.tilemap.tilemap = {}
+                    if event.key == pygame.K_t:
+                        self.tilemap.autotile()
+                    if event.key == pygame.K_o:
+                        self.tilemap.save_map('test.json')
+
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_d:
                         self.movement[0] = False
