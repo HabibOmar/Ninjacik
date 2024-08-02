@@ -81,6 +81,12 @@ class Tilemap:
         self.offgrid_tiles = [Tile(**tile) for tile in map_data['offgrid_tile']]
         file.close()
 
+    def solid_check(self, pos):
+        tile_loc = str(int(pos[0] // self.tile_size)) + ';' + str(int(pos[1] // self.tile_size))
+        if tile_loc in self.tilemap:
+            if self.tilemap[tile_loc].type in PHYSICS_TILES:
+                return True
+
     def neighbor_tiles(self, pos):
         tiles = []
         tile_loc = (int(pos[0] // self.tile_size), int(pos[1] // self.tile_size))

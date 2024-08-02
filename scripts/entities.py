@@ -6,13 +6,12 @@ from .utils import Animation
 from .particles import Dash_Particles
 
 class PhysicsEntity:
-    def __init__(self, game, e_type, pos, size, image, animation_cache=None):
+    def __init__(self, game, e_type, pos, size, animation_cache=None):
         self.game = game
         self.e_type = e_type
         self.pos = list(pos)
         self.size = size
         self.velocity = [0, 0]
-        self.image = image
         self.collisions = {'up': False, 'down': False, 'left': False, 'right': False}
 
         self.animation_cache = animation_cache
@@ -83,6 +82,35 @@ class PhysicsEntity:
         surf.blit(pygame.transform.flip(self.animation.img(), self.flip, False), (self.pos[0] - offset[0] + self.anim_offset[0], self.pos[1] - offset[1] + self.anim_offset[1]))
 
 
+class Enemy(PhysicsEntity):
+    def __init__(self, game, pos, size,):
+        self.animation_cache = {'Idle': Animation(game.assets['Entities']['Enemy']['Idle']), 
+                           'Run': Animation(game.assets['Entities']['Enemy']['Run'])}
+        
+        super().__init__(game, 'Enemy', pos, size, animation_cache=self.animation_cache)
+
+        self.walking = 0
+
+    def update(self, tilemap, movement=(0, 0)):
+        if self.walking:
+            if tilemap.solid_check((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
+                movement = (movement[0] - 0.5 if self.flip else 0.5, movement[1])
+            else:
+                print("Flipping")
+                self.flip = not self.flip
+            self.walking = max(0, self.walking - 1)
+
+        elif random.random() < 0.01:
+            self.walking = random.randint(30, 60)
+            # if random.random() < 0.5:
+            #     self.velocity[0] = 1
+            # else:
+            #     self.velocity[0] = -1
+        super().update(tilemap, movement=movement)
+
+    def render(self, surf, offset=(0, 0)):
+        super().render(surf, offset=offset)
+
 class Player(PhysicsEntity):
     def __init__(self, game, pos, size):
         self.animation_cache = {'Idle': Animation(game.assets['Entities']['Player']['Idle']), 
@@ -91,7 +119,7 @@ class Player(PhysicsEntity):
                            'Slide': Animation(game.assets['Entities']['Player']['Slide']),
                            'Wall_slide': Animation(game.assets['Entities']['Player']['Wall_slide'])}
         
-        super().__init__(game, 'Player', pos, size, game.assets['Entities']['player'], animation_cache=self.animation_cache)
+        super().__init__(game, 'Player', pos, size, animation_cache=self.animation_cache)
         
         self.air_time = 0
         self.jumps = 2
