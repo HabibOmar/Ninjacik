@@ -40,6 +40,7 @@ class Game:
             else:
                 self.enemies.append(Enemy(self, spawner.pos, (8, 15)))
 
+        self.projectiles = []
         self.particles = []
 
         self.scroll = [0, 0]
@@ -69,6 +70,20 @@ class Game:
 
             self.player.update(self.tilemap, (self.movement[0] - self.movement[1], 0))
             self.player.render(self.window, offset=render_scroll)
+
+            #[[x,y], direction, timer]
+            for projectile in self.projectiles.copy():
+                projectile[0][0] += projectile[1]
+                projectile[2] += 1
+                proj_img = self.assets['projectile']
+                self.window.blit(proj_img, (projectile[0][0] - proj_img.get_width() / 2 - render_scroll[0], projectile[0][1] - proj_img.get_height() / 2 - render_scroll[1]))
+                if self.tilemap.solid_check(projectile[0]):
+                    self.projectiles.remove(projectile)
+                elif projectile[2] > 360:
+                    self.projectiles.remove(projectile)
+                elif abs(self.player.dashing) < 50:
+                    if self.player.rect().collidepoint(projectile[0]):
+                        self.projectiles.remove(projectile)
 
             for particle in self.particles.copy():
                 kill = particle.update()

@@ -99,13 +99,16 @@ class Enemy(PhysicsEntity):
             else:
                 movement = (movement[0] - 0.5 if self.flip else 0.5, movement[1])
             self.walking = max(0, self.walking - 1)
-
+            if not self.walking:
+                dis = (self.game.player.pos[0] - self.pos[0], self.game.player.pos[1] - self.pos[1])
+                if abs(dis[1]) < 16:
+                    if self.flip and dis[0] < 0:
+                        self.game.projectiles.append([[self.rect().centerx -7, self.rect().centery], -1.5, 0])
+                    elif not self.flip and dis[0] > 0:
+                        self.game.projectiles.append([[self.rect().centerx + 7, self.rect().centery], 1.5, 0])
         elif random.random() < 0.01:
             self.walking = random.randint(30, 60)
-            # if random.random() < 0.5:
-            #     self.velocity[0] = 1
-            # else:
-            #     self.velocity[0] = -1
+
         super().update(tilemap, movement=movement)
 
         if movement[0] != 0:
