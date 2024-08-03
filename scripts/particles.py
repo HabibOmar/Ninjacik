@@ -44,7 +44,7 @@ class Leaf(Particle):
     def render(self, surf, offset=(0,0)):
         super().render(surf, offset)
 
-class Dash_Particles(Particle):
+class Particles(Particle):
     def __init__(self, game, pos, velocity=[0, 0]):
         self.pos = pos
         self.animation = Animation(game.assets['Particles']['Particle'], img_dur=6, loop=False)

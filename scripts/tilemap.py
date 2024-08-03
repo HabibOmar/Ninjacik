@@ -70,7 +70,7 @@ class Tilemap:
         file = open(path, 'w')
         serialized_tilemap = {key : self.tilemap[key].to_dict() for key in self.tilemap}
         serialized_offgrid_tiles = [tile.to_dict() for tile in self.offgrid_tiles]
-        json.dump({'tilemap': serialized_tilemap, 'offgrid_tile': serialized_offgrid_tiles ,'tile_size': self.tile_size}, file)
+        json.dump({'tilemap': serialized_tilemap, 'offgrid_tiles': serialized_offgrid_tiles ,'tile_size': self.tile_size}, file)
         file.close()
     
     def load_map(self, path):
@@ -78,7 +78,7 @@ class Tilemap:
         map_data = json.load(file)
         self.tile_size = map_data['tile_size']
         self.tilemap = {key : Tile(**map_data['tilemap'][key]) for key in map_data['tilemap']}
-        self.offgrid_tiles = [Tile(**tile) for tile in map_data['offgrid_tile']]
+        self.offgrid_tiles = [Tile(**tile) for tile in map_data['offgrid_tiles']]
         file.close()
 
     def solid_check(self, pos):

@@ -3,7 +3,8 @@ import math
 import random
 
 from .utils import Animation
-from .particles import Dash_Particles
+from .particles import Particles
+from .spark import Spark
 
 class PhysicsEntity:
     def __init__(self, game, e_type, pos, size, animation_cache=None):
@@ -101,11 +102,15 @@ class Enemy(PhysicsEntity):
             self.walking = max(0, self.walking - 1)
             if not self.walking:
                 dis = (self.game.player.pos[0] - self.pos[0], self.game.player.pos[1] - self.pos[1])
-                if abs(dis[1]) < 16:
+                if abs(dis[1]) < 16 and abs(dis[0]) < 96:
                     if self.flip and dis[0] < 0:
                         self.game.projectiles.append([[self.rect().centerx -7, self.rect().centery], -1.5, 0])
+                        for _ in range(4):
+                            self.game.sparks.append(Spark(self.game.projectiles[-1][0], random.random() - 0.5 + math.pi, 2 + random.random()))
                     elif not self.flip and dis[0] > 0:
                         self.game.projectiles.append([[self.rect().centerx + 7, self.rect().centery], 1.5, 0])
+                        for _ in range(4):
+                            self.game.sparks.append(Spark(self.game.projectiles[-1][0], random.random() - 0.5, 2 + random.random()))
         elif random.random() < 0.01:
             self.walking = random.randint(30, 60)
 
@@ -170,7 +175,7 @@ class Player(PhysicsEntity):
                 angle = random.random() * math.pi * 2
                 speed = random.random() * 0.5 + 0.5
                 p_velocity = [math.cos(angle) * speed, math.sin(angle) * speed]
-                self.game.particles.append(Dash_Particles(self.game, self.rect().center, velocity=p_velocity))
+                self.game.particles.append(Particles(self.game, self.rect().center, velocity=p_velocity))
         if self.dashing > 0:
             self.dashing = max(0, self.dashing - 1)
         elif self.dashing < 0:
@@ -180,7 +185,7 @@ class Player(PhysicsEntity):
             if abs(self.dashing) == 51:
                 self.velocity[0] *= 0.1
             p_velocity = [abs(self.dashing) / self.dashing * random.random() * 3, 0]
-            self.game.particles.append(Dash_Particles(self.game, self.rect().center, velocity=p_velocity))
+            self.game.particles.append(Particles(self.game, self.rect().center, velocity=p_velocity))
         
 
             
