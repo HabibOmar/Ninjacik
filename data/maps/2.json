@@ -307,7 +307,7 @@
     "11;8": { "type": "Decor", "variant": 3, "pos": [11, 8] }
   },
   "tile_size": 16,
-  "offgrid": [
+  "offgrid_tiles": [
     { "type": "Large_decor", "variant": 0, "pos": [224.5, -23.0] },
     { "type": "Large_decor", "variant": 0, "pos": [222.5, -134.5] },
     { "type": "Large_decor", "variant": 0, "pos": [549.5, -8.5] },

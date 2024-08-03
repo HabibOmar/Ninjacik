@@ -1,4 +1,5 @@
 import sys
+import os
 import pygame
 import random
 import math
@@ -32,7 +33,8 @@ class Game:
 
         self.screenshake = 0
 
-        self.load_level(0)
+        self.level = 0
+        self.load_level(self.level)
     
     def load_level(self, level_id):
         self.tilemap.load_map(f'data/maps/{str(level_id)}.json')
@@ -55,17 +57,28 @@ class Game:
 
         self.scroll = [0, 0]
         self.dead = 0
+        self.transition = -30
 
     def run(self):
         while True:
             self.window.blit(self.assets['background'], (0,0))
 
-            self.screenshake = max(0, self.screen_shake - 1)
+            self.screenshake = max(0, self.screenshake - 1)
+
+            if not self.enemies and not self.dead:
+                self.transition += 1
+                if self.transition > 30:
+                    self.level = min(self.level + 1, len(os.listdir('data/maps')) - 1)
+                    self.load_level(self.level)
+            if self.transition < 0:
+                self.transition += 1
 
             if self.dead:
                 self.dead += 1
+                if self.dead >= 10:
+                    self.transition = min(self.transition + 1, 30)
                 if self.dead > 50:
-                    self.load_level(0)
+                    self.load_level(self.level)
 
             self.scroll[0] += (self.player.rect().centerx - self.window.get_width() / 2 - self.scroll[0]) / 30
             self.scroll[1] += (self.player.rect().centery - self.window.get_height() / 2 - self.scroll[1]) / 30
@@ -145,6 +158,12 @@ class Game:
                         self.movement[0] = False
                     if event.key == pygame.K_LEFT:
                         self.movement[1] = False
+            
+            if self.transition:
+                transition_surf = pygame.Surface(self.window.get_size())
+                pygame.draw.circle(transition_surf, (255, 255, 255), (self.window.get_width() // 2, self.window.get_height() // 2), (30 - abs(self.transition)) * 8)
+                transition_surf.set_colorkey((255, 255, 255))
+                self.window.blit(transition_surf, (0, 0))
 
             screenshake_offset = (random.random() * self.screenshake - self.screenshake / 2, random.random() * self.screenshake - self.screenshake / 2)
             self.disp.blit(pygame.transform.scale(self.window, (640, 480)), screenshake_offset)
