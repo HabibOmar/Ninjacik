@@ -90,14 +90,14 @@ class Enemy(PhysicsEntity):
         super().__init__(game, 'Enemy', pos, size, animation_cache=self.animation_cache)
 
         self.walking = 0
+        self.gun = game.assets['gun']
 
     def update(self, tilemap, movement=(0, 0)):
         if self.walking:
-            if tilemap.solid_check((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23)):
-                movement = (movement[0] - 0.5 if self.flip else 0.5, movement[1])
-            else:
-                print("Flipping")
+            if self.collisions['right'] or self.collisions['left'] or not(tilemap.solid_check((self.rect().centerx + (-7 if self.flip else 7), self.pos[1] + 23))):
                 self.flip = not self.flip
+            else:
+                movement = (movement[0] - 0.5 if self.flip else 0.5, movement[1])
             self.walking = max(0, self.walking - 1)
 
         elif random.random() < 0.01:
@@ -108,8 +108,18 @@ class Enemy(PhysicsEntity):
             #     self.velocity[0] = -1
         super().update(tilemap, movement=movement)
 
+        if movement[0] != 0:
+            self.set_action('Run')
+        else:
+            self.set_action('Idle')
+
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
+
+        if self.flip:
+            surf.blit(pygame.transform.flip(self.gun, True, False), (self.rect().centerx - 4 - self.gun.get_width() - offset[0], self.rect().centery - offset[1]))
+        else:
+            surf.blit(self.gun, (self.rect().centerx + 4 - offset[0], self.rect().centery - offset[1]))
 
 class Player(PhysicsEntity):
     def __init__(self, game, pos, size):
