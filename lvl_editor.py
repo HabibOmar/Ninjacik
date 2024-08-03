@@ -12,7 +12,7 @@ class Editor:
         pygame.display.set_caption('Ninjacik')
         
         self.disp = pygame.display.set_mode((640, 480))
-        self.window = pygame.Surface((320, 240))
+        self.disp = pygame.Surface((320, 240))
 
         self.clock = pygame.time.Clock()
         
@@ -42,13 +42,13 @@ class Editor:
 
     def run(self):
         while True:
-            self.window.fill((0,0,0))
+            self.disp.fill((0,0,0))
 
             self.scroll[0] += (self.movement[0] - self.movement[1]) * 2
             self.scroll[1] += (self.movement[3] - self.movement[2]) * 2
 
             render_scroll = (int(self.scroll[0]), int(self.scroll[1]))
-            self.tilemap.render(self.window, offset=render_scroll)
+            self.tilemap.render(self.disp, offset=render_scroll)
             
             curr_tile = self.tile_assets[self.tiles_list[self.tile_type]][self.tile_variant].copy()
             curr_tile.set_alpha(128)
@@ -58,9 +58,9 @@ class Editor:
             tile_pos = (int((m_pos[0] + self.scroll[0]) // self.tilemap.tile_size), int((m_pos[1] + self.scroll[1]) // self.tilemap.tile_size))
 
             if self.on_grid: 
-                self.window.blit(curr_tile,(tile_pos[0] * self.tilemap.tile_size - self.scroll[0], tile_pos[1] * self.tilemap.tile_size - self.scroll[1]))
+                self.disp.blit(curr_tile,(tile_pos[0] * self.tilemap.tile_size - self.scroll[0], tile_pos[1] * self.tilemap.tile_size - self.scroll[1]))
             else:
-                self.window.blit(curr_tile, m_pos)
+                self.disp.blit(curr_tile, m_pos)
 
             if self.l_click and self.on_grid:
                 self.tilemap.tilemap[str(tile_pos[0]) + ';' + str(tile_pos[1])] = Tile(type=self.tiles_list[self.tile_type], variant=self.tile_variant, pos=tile_pos)
@@ -73,7 +73,7 @@ class Editor:
                         self.tilemap.offgrid_tiles.remove(tile)
                     
 
-            self.window.blit(curr_tile, (5, 5))
+            self.disp.blit(curr_tile, (5, 5))
 
             for event in pygame.event.get():    
                 if event.type == pygame.QUIT:
@@ -139,7 +139,7 @@ class Editor:
                     if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                         self.shift = False
 
-            self.disp.blit(pygame.transform.scale(self.window, (640, 480)), (0, 0))
+            self.disp.blit(pygame.transform.scale(self.disp, (640, 480)), (0, 0))
             pygame.display.update()
             self.clock.tick(60)
 

@@ -2,6 +2,7 @@ import os
 import pygame
 
 BASE_IMAGE_PATH = 'data/images/'
+BASE_SFX_PATH = 'data/sfx/'
 
 def load_image(path):
     img = pygame.image.load(BASE_IMAGE_PATH + path).convert()
@@ -34,8 +35,18 @@ def load_all_images(BASE_IMAGE_PATH=BASE_IMAGE_PATH):
                         d[part] = {}
                     d = d[part]
                 d[key] = image
-                
     return images
+
+def load_all_sfx(BASE_SFX_PATH=BASE_SFX_PATH):
+    sfx = {}
+
+    pygame.mixer.init()
+
+    for file in os.listdir(BASE_SFX_PATH):
+        if file.endswith('.wav'):
+            full_path = os.path.join(BASE_SFX_PATH, file)
+            sfx[file[:-4]] = pygame.mixer.Sound(full_path)
+    return sfx
 
 class Animation:
     def __init__(self, images, img_dur=5, loop=True):
