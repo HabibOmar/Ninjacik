@@ -120,7 +120,18 @@ class Enemy(PhysicsEntity):
             self.set_action('Run')
         else:
             self.set_action('Idle')
-
+        
+        if abs(self.game.player.dashing) >= 50:
+            if self.rect().colliderect(self.game.player.rect()):
+                for _ in range(30):
+                    angle = random.random() * math.pi * 2
+                    speed = random.random() * 5
+                    self.game.sparks.append(Spark(self.rect().center, angle, 2 + random.random()))
+                    self.game.particles.append(Particles(self.game, self.rect().center, [math.cos(angle + math.pi) * speed * 0.5, math.sin(angle + math.pi) * speed * 0.5]))
+                self.game.sparks.append(Spark(self.rect().center, 0, 5 + random.random()))
+                self.game.sparks.append(Spark(self.rect().center, math.pi, 5 + random.random()))
+                return True
+   
     def render(self, surf, offset=(0, 0)):
         super().render(surf, offset=offset)
 
@@ -147,6 +158,10 @@ class Player(PhysicsEntity):
         super().update(tilemap, movement=movement)
 
         self.air_time += 1
+
+        if self.air_time > 120:
+            self.game.dead += 1
+
         if self.collisions['down']:
             self.air_time = 0
             self.jumps = 2
