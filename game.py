@@ -30,6 +30,8 @@ class Game:
 
         self.player = Player(self, (50, 50), (8, 15))
 
+        self.screenshake = 0
+
         self.load_level(0)
     
     def load_level(self, level_id):
@@ -57,6 +59,8 @@ class Game:
     def run(self):
         while True:
             self.window.blit(self.assets['background'], (0,0))
+
+            self.screenshake = max(0, self.screen_shake - 1)
 
             if self.dead:
                 self.dead += 1
@@ -104,6 +108,7 @@ class Game:
                     if self.player.rect().collidepoint(projectile[0]):
                         self.projectiles.remove(projectile)
                         self.dead += 1
+                        self.screenshake = max(self.screenshake, 16)
                         for _ in range(30):
                             angle = random.random() * math.pi * 2
                             speed = random.random() * 5
@@ -141,7 +146,8 @@ class Game:
                     if event.key == pygame.K_LEFT:
                         self.movement[1] = False
 
-            self.disp.blit(pygame.transform.scale(self.window, (640, 480)), (0, 0))
+            screenshake_offset = (random.random() * self.screenshake - self.screenshake / 2, random.random() * self.screenshake - self.screenshake / 2)
+            self.disp.blit(pygame.transform.scale(self.window, (640, 480)), screenshake_offset)
             pygame.display.update()
             self.clock.tick(60)
 
