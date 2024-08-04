@@ -31,8 +31,8 @@ class Particle:
 class Leaf(Particle):
     def __init__(self, game, pos, velocity=[-0.1, 0.3]):
         self.pos = pos
-        self.animation = Animation(game.assets['Particles']['Leaf'], img_dur=20, loop=False)
-        super().__init__(self.animation, 'Leaf', self.pos, velocity, frame=random.randint(0, 20))
+        self.animation = Animation(game.assets['particles']['leaf'], img_dur=20, loop=False)
+        super().__init__(self.animation, 'leaf', self.pos, velocity, frame=random.randint(0, 20))
 
     def update(self):
         kill = super().update()
@@ -47,8 +47,8 @@ class Leaf(Particle):
 class Particles(Particle):
     def __init__(self, game, pos, velocity=[0, 0]):
         self.pos = pos
-        self.animation = Animation(game.assets['Particles']['Particle'], img_dur=6, loop=False)
-        super().__init__(self.animation, 'Particle', self.pos, velocity, frame=random.randint(0, 7))
+        self.animation = Animation(game.assets['particles']['particle'], img_dur=6, loop=False)
+        super().__init__(self.animation, 'particle', self.pos, velocity, frame=random.randint(0, 7))
 
     def update(self):
         kill = super().update()

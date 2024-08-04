@@ -19,7 +19,7 @@ class Editor:
         
         self.movement = [False, False, False, False]
 
-        self.tile_assets = load_all_images('data/images/Tiles/')
+        self.tile_assets = load_all_images('data/images/tiles/')
 
         self.tilemap = Tilemap(tile_assets=self.tile_assets, tile_size=16)
 

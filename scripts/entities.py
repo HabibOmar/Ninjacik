@@ -19,7 +19,7 @@ class PhysicsEntity:
         self.action = ''
         self.anim_offset = (-3, -3)
         self.flip = False
-        self.set_action('Idle')
+        self.set_action('idle')
         self.last_movement = (0, 0)
 
     def rect(self):
@@ -85,10 +85,10 @@ class PhysicsEntity:
 
 class Enemy(PhysicsEntity):
     def __init__(self, game, pos, size,):
-        self.animation_cache = {'Idle': Animation(game.assets['Entities']['Enemy']['Idle']), 
-                           'Run': Animation(game.assets['Entities']['Enemy']['Run'])}
+        self.animation_cache = {'idle': Animation(game.assets['entities']['enemy']['idle']), 
+                           'run': Animation(game.assets['entities']['enemy']['run'])}
         
-        super().__init__(game, 'Enemy', pos, size, animation_cache=self.animation_cache)
+        super().__init__(game, 'enemy', pos, size, animation_cache=self.animation_cache)
 
         self.walking = 0
         self.gun = game.assets['gun']
@@ -118,9 +118,9 @@ class Enemy(PhysicsEntity):
         super().update(tilemap, movement=movement)
 
         if movement[0] != 0:
-            self.set_action('Run')
+            self.set_action('run')
         else:
-            self.set_action('Idle')
+            self.set_action('idle')
         
         if abs(self.game.player.dashing) >= 50:
             if self.rect().colliderect(self.game.player.rect()):
@@ -145,13 +145,13 @@ class Enemy(PhysicsEntity):
 
 class Player(PhysicsEntity):
     def __init__(self, game, pos, size):
-        self.animation_cache = {'Idle': Animation(game.assets['Entities']['Player']['Idle']), 
-                           'Run': Animation(game.assets['Entities']['Player']['Run']), 
-                           'Jump': Animation(game.assets['Entities']['Player']['Jump']),
-                           'Slide': Animation(game.assets['Entities']['Player']['Slide']),
-                           'Wall_slide': Animation(game.assets['Entities']['Player']['Wall_slide'])}
+        self.animation_cache = {'idle': Animation(game.assets['entities']['player']['idle']), 
+                           'run': Animation(game.assets['entities']['player']['run']), 
+                           'jump': Animation(game.assets['entities']['player']['jump']),
+                           'slide': Animation(game.assets['entities']['player']['slide']),
+                           'wall_slide': Animation(game.assets['entities']['player']['wall_slide'])}
         
-        super().__init__(game, 'Player', pos, size, animation_cache=self.animation_cache)
+        super().__init__(game, 'player', pos, size, animation_cache=self.animation_cache)
         
         self.air_time = 0
         self.jumps = 2
@@ -180,15 +180,15 @@ class Player(PhysicsEntity):
                 self.flip = False
             else:
                 self.flip = True
-            self.set_action('Wall_slide')
+            self.set_action('wall_slide')
         
         if not self.wall_slide:
             if self.air_time > 4:
-                self.set_action('Jump')
+                self.set_action('jump')
             elif movement[0] != 0:
-                self.set_action('Run')
+                self.set_action('run')
             else:
-                self.set_action('Idle')
+                self.set_action('idle')
         
         if abs(self.dashing) in {60, 50}:
             for _ in range(20):

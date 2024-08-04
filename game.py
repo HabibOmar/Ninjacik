@@ -34,8 +34,8 @@ class Game:
         self.sfx['dash'].set_volume(0.3)
         self.sfx['jump'].set_volume(0.7)
 
-        self.tilemap = Tilemap(tile_assets=self.assets['Tiles'], tile_size=16)
-        self.clouds = Clouds(self.assets['Clouds'], 320, 240, count=16)
+        self.tilemap = Tilemap(tile_assets=self.assets['tiles'], tile_size=16)
+        self.clouds = Clouds(self.assets['clouds'], 320, 240, count=16)
         self.player = Player(self, (50, 50), (8, 15))
         self.screenshake = 0
 
@@ -44,16 +44,16 @@ class Game:
     
     def load_level(self, level_id):
         if level_id == 2311:
-            self.tilemap.load_map('data/images/Entities/Enemy/Idle/NKBT/nkbt.json')
+            self.tilemap.load_map('data/images/entities/enemy/idle/NKBT/nkbt.json')
         else:
             self.tilemap.load_map(f'data/maps/{str(level_id)}.json')
 
         self.leaf_spawners = []
-        for tree in self.tilemap.extract_tile([('Large_decor', 2)], keep=True):
+        for tree in self.tilemap.extract_tile([('large_decor', 2)], keep=True):
             self.leaf_spawners.append(pygame.Rect(4+tree.pos[0], 4+tree.pos[1], 23, 13))
 
         self.enemies = []
-        for spawner in self.tilemap.extract_tile([('Spawners', 0), ('Spawners', 1)]):
+        for spawner in self.tilemap.extract_tile([('spawners', 0), ('spawners', 1)]):
             if spawner.variant == 0:
                 self.player.pos = spawner.pos.copy()
                 self.player.air_time = 0

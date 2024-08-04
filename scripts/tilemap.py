@@ -13,11 +13,11 @@ AUTOTILE_MAP = {
     tuple(sorted([(1, 0), (0, -1), (0, 1)])): 7,
     tuple(sorted([(1, 0), (-1, 0), (0, 1), (0, -1)])): 8,
 }
-AUTOTILE_TYPES = {'Grass', 'Stone'}
+AUTOTILE_TYPES = {'grass', 'stone'}
 AUTOTILE_OFFSETS = [(1, 0), (-1, 0), (0, -1), (0, 1)]
 
 NEIGHBORS = [(0, -1), (0, 1), (-1, 0), (1, 0), (1, 1), (-1, -1), (1, -1), (-1, 1), (0, 0)]
-PHYSICS_TILES = {'Grass', 'Stone'}
+PHYSICS_TILES = {'grass', 'stone'}
 
 class Tile:
     def __init__(self, type, variant, pos):
@@ -63,8 +63,8 @@ class Tilemap:
     
     def basic_map(self):
         for i in range(10):
-            self.tilemap[str(3+i) + ';10'] = Tile(type='Grass', variant=1, pos=(3+i, 10))
-            self.tilemap['10;' + str(5+i)] = Tile(type='Stone', variant=1, pos=(10, 5+i))
+            self.tilemap[str(3+i) + ';10'] = Tile(type='grass', variant=1, pos=(3+i, 10))
+            self.tilemap['10;' + str(5+i)] = Tile(type='stone', variant=1, pos=(10, 5+i))
     
     def save_map(self, path):
         file = open(path, 'w')
