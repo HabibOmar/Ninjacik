@@ -79,9 +79,9 @@
     { "type": "decor", "variant": 0, "pos": [33.0, 77.0] },
     { "type": "decor", "variant": 0, "pos": [32.5, 80.0] },
     { "type": "decor", "variant": 0, "pos": [35.5, 80.0] },
-    { "type": "Spawners", "variant": 0, "pos": [104.5, 32.5] },
-    { "type": "Spawners", "variant": 1, "pos": [110.5, 145.5] },
-    { "type": "Spawners", "variant": 1, "pos": [137.5, 145.5] },
+    { "type": "spawners", "variant": 0, "pos": [104.5, 32.5] },
+    { "type": "spawners", "variant": 1, "pos": [110.5, 145.5] },
+    { "type": "spawners", "variant": 1, "pos": [137.5, 145.5] },
     { "type": "large_decor", "variant": 2, "pos": [42.5, 21.5] },
     { "type": "large_decor", "variant": 1, "pos": [58.5, 54.0] },
     { "type": "large_decor", "variant": 1, "pos": [72.5, 52.0] }
