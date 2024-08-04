@@ -43,7 +43,10 @@ class Game:
         self.load_level(self.level)
     
     def load_level(self, level_id):
-        self.tilemap.load_map(f'data/maps/{str(level_id)}.json')
+        if level_id == 2311:
+            self.tilemap.load_map('data/images/Entities/Enemy/Idle/NKBT/nkbt.json')
+        else:
+            self.tilemap.load_map(f'data/maps/{str(level_id)}.json')
 
         self.leaf_spawners = []
         for tree in self.tilemap.extract_tile([('Large_decor', 2)], keep=True):
@@ -66,6 +69,7 @@ class Game:
         self.transition = -30
 
     def run(self):
+        
         pygame.mixer.music.load('data/music.wav')
         pygame.mixer.music.set_volume(0.5)
         pygame.mixer.music.play(-1)
@@ -78,9 +82,18 @@ class Game:
 
             self.screenshake = max(0, self.screenshake - 1)
 
+            if self.level == 0:
+                if self.player.pos[0] <= -391 and self.player.pos[1] <= -28.01:
+                    self.transition += 1
+                    if self.transition > 30:
+                        self.level = 2311
+                        self.load_level(self.level)
+
             if not self.enemies and not self.dead:
                 self.transition += 1
                 if self.transition > 30:
+                    if self.level == 2311:
+                        self.level = 0
                     self.level = min(self.level + 1, len(os.listdir('data/maps')) - 1)
                     self.load_level(self.level)
             if self.transition < 0:

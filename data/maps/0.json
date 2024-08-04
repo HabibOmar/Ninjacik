@@ -174,9 +174,14 @@
     "21;9": { "type": "Decor", "variant": 2, "pos": [21, 9] },
     "19;9": { "type": "Decor", "variant": 3, "pos": [19, 9] },
     "6;4": { "type": "Decor", "variant": 3, "pos": [6, 4] },
-    "27;7": { "type": "Decor", "variant": 3, "pos": [27, 7] }
+    "27;7": { "type": "Decor", "variant": 3, "pos": [27, 7] },
+    "-8;10": { "type": "Grass", "variant": 0, "pos": [-8, 10] },
+    "-15;11": { "type": "Grass", "variant": 0, "pos": [-15, 11] },
+    "-22;10": { "type": "Grass", "variant": 0, "pos": [-22, 10] },
+    "-25;7": { "type": "Grass", "variant": 0, "pos": [-25, 7] },
+    "-21;5": { "type": "Grass", "variant": 0, "pos": [-21, 5] },
+    "-25;4": { "type": "Grass", "variant": 0, "pos": [-25, 4] }
   },
-  "tile_size": 16,
   "offgrid_tiles": [
     { "type": "Large_decor", "variant": 0, "pos": [457.0, 119.0] },
     { "type": "Large_decor", "variant": 0, "pos": [361.5, 151.0] },
@@ -195,6 +200,17 @@
     { "type": "Spawners", "variant": 0, "pos": [228.5, 192.5] },
     { "type": "Spawners", "variant": 1, "pos": [59.5, 159.5] },
     { "type": "Spawners", "variant": 1, "pos": [321.5, 142.0] },
-    { "type": "Spawners", "variant": 1, "pos": [472.0, 111.0] }
-  ]
+    { "type": "Spawners", "variant": 1, "pos": [472.0, 111.0] },
+    { "type": "Decor", "variant": 0, "pos": [-125.5, 143.5] },
+    { "type": "Grass", "variant": 0, "pos": [-223.5, 176.5] },
+    { "type": "Grass", "variant": 0, "pos": [-256.0, 176.5] },
+    { "type": "Grass", "variant": 0, "pos": [-335.5, 159.5] },
+    { "type": "Grass", "variant": 0, "pos": [-415.5, 112.5] },
+    { "type": "Grass", "variant": 0, "pos": [-319.5, 80.5] },
+    { "type": "Large_decor", "variant": 2, "pos": [-405.0, 21.0] },
+    { "type": "Decor", "variant": 0, "pos": [-239.0, 160.5] },
+    { "type": "Decor", "variant": 0, "pos": [-334.5, 144.5] },
+    { "type": "Decor", "variant": 0, "pos": [-336.5, 63.5] }
+  ],
+  "tile_size": 16
 }
