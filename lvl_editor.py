@@ -121,8 +121,11 @@ class Editor:
                     if event.key == pygame.K_g:
                         self.on_grid = not self.on_grid
                     if event.key == pygame.K_r:
-                        self.tilemap.offgrid_tiles = []
-                        self.tilemap.tilemap = {}
+                        if self.shift:
+                            self.tilemap.offgrid_tiles = []
+                            self.tilemap.tilemap = {}
+                        else:
+                            self.tilemap.load_map('t.json')
                     if event.key == pygame.K_t:
                         self.tilemap.autotile()
                     if event.key == pygame.K_o:
