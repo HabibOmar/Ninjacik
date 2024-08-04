@@ -1,8 +1,9 @@
 import sys
 import os
-import pygame
 import random
 import math
+
+import pygame
 
 from scripts.utils import load_all_images, load_all_sfx
 from scripts.entities import Player, Enemy
