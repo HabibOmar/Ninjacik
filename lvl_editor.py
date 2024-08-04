@@ -27,7 +27,7 @@ class Editor:
             self.tilemap.load_map('t.json')
         except FileNotFoundError as e:
             print("No map found:", e)
-        except Exception as e:
+        except Exception as _:
             pass
 
         self.scroll = [0, 0]
