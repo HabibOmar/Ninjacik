@@ -12,7 +12,7 @@ class Editor:
         pygame.init()
         pygame.display.set_caption('Ninjacik')
         
-        self.disp = pygame.display.set_mode((640, 480))
+        self.window = pygame.display.set_mode((640, 480))
         self.disp = pygame.Surface((320, 240))
 
         self.clock = pygame.time.Clock()
@@ -24,7 +24,7 @@ class Editor:
         self.tilemap = Tilemap(tile_assets=self.tile_assets, tile_size=16)
 
         try:
-            self.tilemap.load_map('test.json')
+            self.tilemap.load_map('data/maps/test/test.json')
         except FileNotFoundError as e:
             print("No map found:", e)
         except Exception as e:
@@ -126,7 +126,7 @@ class Editor:
                     if event.key == pygame.K_t:
                         self.tilemap.autotile()
                     if event.key == pygame.K_o:
-                        self.tilemap.save_map('test.json')
+                        self.tilemap.save_map('data/maps/test/test.json')
 
                 if event.type == pygame.KEYUP:
                     if event.key == pygame.K_d:
@@ -140,7 +140,7 @@ class Editor:
                     if event.key == pygame.K_LSHIFT or event.key == pygame.K_RSHIFT:
                         self.shift = False
 
-            self.disp.blit(pygame.transform.scale(self.disp, (640, 480)), (0, 0))
+            self.window.blit(pygame.transform.scale(self.disp, (640, 480)), (0, 0))
             pygame.display.update()
             self.clock.tick(60)
 
